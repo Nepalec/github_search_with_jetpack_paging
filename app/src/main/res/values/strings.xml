@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Github Search App</string>
+    <string name="title_home">Search</string>
+    <string name="title_dashboard">Detail</string>
+    <string name="title_notifications">About</string>
+    <string name="search_query_hint">Поиск</string>
+</resources>
