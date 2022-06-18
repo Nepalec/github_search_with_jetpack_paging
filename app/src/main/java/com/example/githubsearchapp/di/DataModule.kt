@@ -1,21 +1,19 @@
 package com.example.githubsearchapp.di
 
+//import kotlinx.serialization.json.Json
 import android.content.Context
 import com.example.githubsearchapp.network.BASE_URL
 import com.example.githubsearchapp.network.GithubApi
 import com.example.githubsearchapp.network.result.ResultAdapterFactory
 import com.example.githubsearchapp.repo.DataProvider
 import com.example.githubsearchapp.vm.AppVMFactory
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-
 import retrofit2.Retrofit
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -36,13 +34,14 @@ class DataModule {
     @Provides
     fun provideRetrofit(okHttp: OkHttpClient): GithubApi
     {
-        val json = Json {
-            ignoreUnknownKeys = true
-        }
+
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
 
         return Retrofit.Builder()
             .addCallAdapterFactory(ResultAdapterFactory())
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(BASE_URL)
             .client(okHttp)
             .build()
@@ -51,7 +50,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideDataP(api:GithubApi, ctx:Context) = DataProvider(api, ctx)
+    fun provideDataP(api:GithubApi) = DataProvider(api)
 
     @Provides
     @Singleton

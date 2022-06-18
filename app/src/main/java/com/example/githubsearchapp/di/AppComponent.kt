@@ -18,6 +18,7 @@ package com.example.githubsearchapp.di
 
 import android.content.Context
 import com.example.githubsearchapp.ui.SearchFragment
+import com.example.githubsearchapp.ui.DetailFragment
 
 import dagger.BindsInstance
 import dagger.Component
@@ -27,13 +28,8 @@ import javax.inject.Singleton
 @Component(modules = [DataModule::class])
 interface AppComponent {
 
-    // Factory to create instances of the AppComponent
-    @Component.Factory
-    interface Factory {
-        // With @BindsInstance, the Context passed in will be available in the graph
-        fun create(@BindsInstance context: Context): AppComponent
-    }
-
-    // Classes that can be injected by this Component
     fun inject(f: SearchFragment)
+    fun inject(f: DetailFragment) {
+
+    }
 }

@@ -7,6 +7,6 @@ import com.example.githubsearchapp.di.DaggerAppComponent
 class MyApp : Application() {
 
     val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
+        DaggerAppComponent.create()
     }
 }

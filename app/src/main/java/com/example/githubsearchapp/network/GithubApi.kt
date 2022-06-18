@@ -1,36 +1,27 @@
 package com.example.githubsearchapp.network
 
 
-import com.example.githubsearchapp.model.Repo
+import com.example.githubsearchapp.network.dto.ProfileDTO
+import com.example.githubsearchapp.network.dto.RepoDTO
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 const val BASE_URL: String = "https://api.github.com/"
-const val GET_REPOS: String = "search/repositories"
-
 
 interface GithubApi {
 
-    // Search
-    @GET(GET_REPOS)
-    suspend fun searchRepos(@Query("q") searchQuery: String): Result<SearchResponse>
 
-    @GET(GET_REPOS)
-    suspend fun searchRepos(@Query("q") searchQuery: String,
-                            @Query("per_page") perPage: Int): Result<SearchResponse>
-
-    @GET(GET_REPOS)
+    @GET("search/repositories")
     suspend fun searchRepos(@Query("q") searchQuery: String,
                             @Query("page") pageIndex: Int,
-                            @Query("per_page") perPage: Int): Result<SearchResponse>
+                            @Query("per_page") perPage: Int): Response<SearchResponse>
 
     // Repository info
-    @GET("repos/{owner}/{name}")
-    suspend fun getRepo(
-        @Path("owner") owner: String,   // owner login
-        @Path("name") name: String      // repo name
-    ): Result<Repo>
+    @GET("users/{login}")
+    suspend fun getProfile( @Path("login") l: String): Response<ProfileDTO>
+
 
 
 }

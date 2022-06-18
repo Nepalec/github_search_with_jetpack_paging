@@ -14,6 +14,9 @@ class AppVMFactory @Inject constructor(dp: DataProvider): ViewModelProvider.Fact
     {
         if (modelClass == SearchViewModel::class.java)
             return SearchViewModel(dataProvider) as T
+        if (modelClass == DetailViewModel::class.java)
+            return DetailViewModel(dataProvider) as T
+
         else
             throw IllegalArgumentException("ViewModel Not Found")
 

@@ -3,11 +3,9 @@ package com.example.githubsearchapp.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.githubsearchapp.repo.DataProvider
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(private val dataProvider: DataProvider) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is detail Fragment"
-    }
-    val text: LiveData<String> = _text
+  fun getProfile(l:String) = dataProvider.getProfile(l)
 }

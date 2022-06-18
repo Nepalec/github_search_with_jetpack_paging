@@ -20,10 +20,14 @@
         android:id="@+id/navigation_notifications"
         android:name="com.example.githubsearchapp.ui.AboutFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/detailFragment"
         tools:layout="@layout/fragment_detail"
         android:name="com.example.githubsearchapp.ui.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>
