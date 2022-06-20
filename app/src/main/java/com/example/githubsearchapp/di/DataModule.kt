@@ -34,7 +34,6 @@ class DataModule {
     @Provides
     fun provideRetrofit(okHttp: OkHttpClient): GithubApi
     {
-
         val gson = GsonBuilder()
             .setLenient()
             .create()
@@ -47,6 +46,7 @@ class DataModule {
             .build()
             .create(GithubApi::class.java)
     }
+
 
     @Provides
     @Singleton

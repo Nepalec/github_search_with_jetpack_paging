@@ -1,18 +1,17 @@
 package com.example.githubsearchapp.repo
 
-import android.content.Context
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.githubsearchapp.model.Profile
 import com.example.githubsearchapp.model.Repo
 import com.example.githubsearchapp.network.GithubApi
+import com.example.githubsearchapp.network.dto.ProfileDTO
+import com.example.githubsearchapp.network.result.Result
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataProvider @Inject constructor(private val api: GithubApi)
@@ -28,10 +27,8 @@ class DataProvider @Inject constructor(private val api: GithubApi)
         ).flow
     }
 
-    fun getProfile(l: String): LiveData<Profile?> = liveData(Dispatchers.IO) {
-        val resp = api.getProfile(l)
-        if(resp.isSuccessful)  emit(resp.body()!!.toProfile())
-        else emit(null)
+    fun getProfile(l: String): LiveData<Result<ProfileDTO>> = liveData(Dispatchers.IO) {
+        emit(api.getProfile(l))
     }
 
 

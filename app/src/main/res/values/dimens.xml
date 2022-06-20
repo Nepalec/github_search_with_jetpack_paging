@@ -28,4 +28,7 @@
     <dimen name="corner_radius">11dp</dimen>
     <dimen name="corner_radius_round">24dp</dimen>
 
+    <!--detail screen-->
+    <dimen name="detail_image_size">96dp</dimen>
+
 </resources>

@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isInvisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +18,6 @@ import com.example.githubsearchapp.ui.adapters.DefaultLoadStateAdapter
 import com.example.githubsearchapp.ui.adapters.ReposAdapter
 import com.example.githubsearchapp.vm.AppVMFactory
 import com.example.githubsearchapp.vm.SearchViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,7 +55,7 @@ class SearchFragment : Fragment() {
         setupSearchInput()
         setupSwipeToRefresh()
 
-        binding.searchEditText.setText("php")
+       // binding.searchEditText.setText("php")
 
     }
     private fun setupReposList() {
@@ -125,18 +122,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun handleListVisibility(adapter: ReposAdapter) = lifecycleScope.launch {
-        // list should be hidden if an error is displayed OR if items are being loaded after the error:
-        // (current state = Error) OR (prev state = Error)
-        //   OR
-        // (before prev state = Error, prev state = NotLoading, current state = Loading)
         getRefreshLoadStateFlow(adapter)
-            .simpleScan(count = 3)
-            .collectLatest { (beforePrevious, previous, current) ->
-                binding.recyclerView.isInvisible = current is LoadState.Error
-                        || previous is LoadState.Error
-                        || (beforePrevious is LoadState.Error && previous is LoadState.NotLoading
-                        && current is LoadState.Loading)
-                if(current is LoadState.Error) binding.loadStateView.messageTextView.text = current.error.message
+            .collectLatest {
+                if(it is LoadState.Error) binding.loadStateView.messageTextView.text = it.error.message
             }
     }
 
@@ -149,10 +137,4 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
-
-@ExperimentalCoroutinesApi
-fun <T> Flow<T>.simpleScan(count: Int): Flow<List<T?>> {
-    val items = List<T?>(count) { null }
-    return this.scan(items) { previous, value -> previous.drop(1) + value }
 }
