@@ -38,10 +38,12 @@ class DetailFragment : Fragment() {
 
         viewModel.getProfile(args.id).observe(this){ result->
             when(result){
-                is Result.Success       ->   binding.data = result.value.toProfile()
+                is Result.Success       ->   {
+                    binding.data = result.value.toProfile()
+                    binding.bg.visibility=View.GONE
+                }
                 is Result.Failure<*>    ->   binding.errMsg = result.error?.message ?: "Непредвиденная ошибка"
             }
-            binding.bg.visibility=View.GONE
             binding.progressBar.visibility=View.GONE
             binding
         }
